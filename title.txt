@@ -1,0 +1,3 @@
+---
+title: 🔰golangをさわってみる with windows10-vscode
+...
