@@ -2,7 +2,7 @@
 
 golangはとっても愛らしいgopherくんがマスコットキャラクターなことで有名なプログラミング言語。
 
-そんなgolangをさわってみる。
+今回はそんなgolangをさわってみる。
 
 ちなみに下記がgopherくん。
 
@@ -10,7 +10,7 @@ golangはとっても愛らしいgopherくんがマスコットキャラクタ�
 
 作者は[Renée French](http://reneefrench.blogspot.com/)さんでライセンスはcc3.0！
 
-[The Go Blog](https://blog.golang.org/gopher)
+[The Go Blog - gopher](https://blog.golang.org/gopher)
 
 ## 🔰公式サイトやらリポジトリやら
 
@@ -19,43 +19,82 @@ golangはとっても愛らしいgopherくんがマスコットキャラクタ�
 
 ## 🔰そもそもgolangって？
 
-- goはオープンソースでgoogleが開発しているプログラミング言語。
+- golangはオープンソースでgoogleが開発しているプログラミング言語。
 - unixやC言語に関わった人たちによって設計されている。
-- スクリプト言語ではなくてコンパイルするやつ。（コンパイルが早いのが特徴の一つらしい）
+- スクリプト言語ではなくてコンパイルするやつ
 - 仮想マシンではなくてネイティブなやつ
 - 様々なOS用にクロスコンパイルするのが簡単
 
-本資料では、windows10+vscode+vscodeのgolang拡張機能を利用してgolangをさわってみる。
-
 ## 🔰環境構築
 
-- go1.10.2 windows/amd64
+本資料ではWindows 10+vscode+vscodeのgolang拡張機能を利用してgolangをさわってみる。
+
+- go1.12.6.windows-amd64
 - windows10
-- vscode 1.24 + vscodeのgo拡張機能(vscode-go)
-- powershell 6.0.2
-
-今回は上記環境でgolangをさわっていく。
-
-golangをインストールするためのシステム要件としてはFreeBSD/Linux/macOS/Windowsをサポートしている。(2018年6月)
+- vscode 1.36.1
+- vscodeのgo拡張機能 GO(ms-vscode.go)
 
 ### 🔰golangのインストール
 
 - [The Go Programming Language - Getting Started](https://golang.org/doc/install)
-- [chocolatey - golang](https://chocolatey.org/packages/golang)
 
-公式サイトのGetting Startedからインストーラーをダウンロードしてインストールするか、windowsのパッケージ管理ツールにもgolangがあるのでお好きな方法でインストールして下さい。
+公式サイトのGetting Startedに各OS環境での手順が記載されているので、この中の[Windows](https://golang.org/doc/install#windows)を参考に進めていく。
+※Windowsなパッケージ管理ツールのchocolateyにもgolangのパッケージがあるので、こちらでインストールするのもありかと思います。
 
-今回はchocolateyでインストールしてみる。
+WindowsではMSIインストーラかzipアーカイブからインストール手法があるようなので、今回はMSIインストーラを選択。
 
-![](image/chocoInstallGolang.png)
+なおgolangをインストールするシステム要件は下記に記載があります。
 
-インストールされました。
+[System requirements](https://golang.org/doc/install#requirements)
 
-![](image/whichGo.png)
+[Download](https://golang.org/dl/)
 
-`go version`でバージョンを確認してみる。
+ダウンロードページからMicrosoft Windows用のインストーラを取得して実行。
 
-![](image/goVersion.png)
+![](image/setupMSIStep001.png)
+
+![](image/setupMSIStep002.png)
+
+![](image/setupMSIStep003.png)
+
+![](image/setupMSIStep004.png)
+
+![](image/setupMSIStep005.png)
+
+インストール完了！ デフォルトでは`c:\go`にインストールされるようです。
+
+[Windows - MSI installer](https://golang.org/doc/install#windows)に下記のような記載があるので、環境変数PATHを確認してみる。
+
+>The installer should put the c:\Go\bin directory in your PATH environment variable. You may need to restart any open command prompts for the change to take effect.
+
+確認した所、環境変数`PATH`と`GOPATH`がインストーラによって登録されたようです。
+
+- ユーザ環境変数PATHには`%USERPROFILE%\go\bin`
+- ユーザ環境変数GOPATHには`%USERPROFILE%\go`
+- システム環境変数PATHには`C:\Go\bin`
+
+### 🔰Test your installation
+
+golangの[Test your installation](https://golang.org/doc/install#testing)があるのでやってみる。
+
+サンプルでは`%USERPROFILE%\go\src\hello`をワークディレクトリとして利用するのでまずこのディレクトリを作成し、下記サンプルコードをhello.goというファイル名で保存する。
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Printf("hello, world\n")
+}
+
+```
+
+hello.goというソースファイルを用意したら、作成したディレクトリに移動したビルドして実行。（下記はPowerShell)
+
+![](image/testYourInstallation.png)
+
+hello, worldと表示が帰ってきたので、うまくインストールできたようです。
 
 ### 🔰vscodeのインストール
 
@@ -67,8 +106,8 @@ golangをインストールするためのシステム要件としてはFreeBSD/
 - [visual sutido marketplatce - Go](https://marketplace.visualstudio.com/items?itemName=ms-vscode.Go)
 - [Microsoft/vscode-go](https://github.com/Microsoft/vscode-go)
 
-上記のようにvscodeのマーケットプレイスにgolang用の拡張機能が用意されています。
-ちなみに提供者はMicrosoft。やっぱりMicrosoft最近こういうの力いれてますねという感じ。
+vscodeのマーケットプレイスにgolang用の拡張機能が用意されています。
+ちなみに提供者はMicrosoft。Microsoftなかなか力をいれてますね。
 
 ![](image/vscodeInstallExtensionGo.png)
 
@@ -76,11 +115,11 @@ vscodeのサイトにgolangについての下記のようなページがあっ�
 
 [Go programming in VS Code](https://code.visualstudio.com/docs/languages/go)
 
-golang用の拡張機能をインストールして設定すると、インテリセンスやらデバッグやらgo開発に便利な機能がvscodeで利用できるようになります。
+golang用の拡張機能をインストールして設定すると、インテリセンスやデバッグなどなどgo開発に便利な機能がvscodeで利用できるようになります。
 
 ### 🔰vscodeのgo拡張機能の設定
 
-vscodeのgo拡張機能をインストールして、それで終了という訳ではなくいろいろと設定をしていきます。
+vscodeのgo拡張機能をインストールしたので設定をします。
 
 [visual sutido marketplatce - Go](https://marketplace.visualstudio.com/items?itemName=ms-vscode.Go)のOverviewnページのHow to use this extension?に説明があるので、これを参考に作業していく。
 
@@ -99,45 +138,48 @@ golangリポジトリのwikiにGOPATHについての説明ページがあった�
 - [GOPATH](https://github.com/golang/go/wiki/GOPATH)
 - [SettingGOPATH](https://github.com/golang/go/wiki/SettingGOPATH)
 
-GOPAHTはgolangで利用する環境変数でワークスペースを指定するらしい。
+GOPAHTはgolangで利用する環境変数になり、ワークスペースを指定するようです。
 
 Windowsの場合、下記のようにふるまうらしい。
 
 - windowsの環境変数にGOPATHが設定されていればwindowsの環境変数の値を利用する。
-- windowsの環境変数にGOPATHが設定されてない場合は、`%USERPROFILE%\go`が利用される(この動きをするのはGo 1.8かららしい)
+- windowsの環境変数にGOPATHが設定されてない場合は、`%USERPROFILE%\go`（この動きをするのはGo 1.8 かららしい）
 
-[Print Go environment information](https://golang.org/cmd/go/#hdr-Print_Go_environment_information)のページに書いてあるように、`go env`でgoの環境変数がとれるようなので実際にどう設定されているか見てみる。
-
-下記画像をみると今回はwindowsの環境変数にget-childitemでGOPATHが設定されていないのを確認してから、`go env GOPATH`で`%USERPROFILE%\go`が設定されていることが確認している。
-
-- `get-childitem env:GOPATH`でwindowsの環境変数が登録されていないことを確認。
-- `go env GOPATH`でデフォルト`%USERPROFILE%\go`の設定が行われていることが確認。
+[Print Go environment information](https://golang.org/cmd/go/#hdr-Print_Go_environment_information)のページを見ると、`go env`コマンドで利用している環境変数がとれるようなので確認してみる。
 
 ![](image/goEnvGOPATH.png)
 
-とりあえず現在の状態としては
+インストーラから登録されたとユーザ環境変数GOPATHが参照できました。
+なお、ためしにユーザ環境変数のGOPATHを削除してから`go env GOPATH`を実行して見た所、ドキュメントの通り`%USERPROFILE%\go`を利用していました。
 
-- windowsの環境変数にはGOPATHはない。
-- go envをみるとGOPATHのデフォルトの`%USERPROFILE%\go`が設定されている
+vscodeのgolang拡張機能でのGOPATHの扱いについては下記に記載があり。
 
-ちなみにcmd.exeだと%USERPROFILE%でホームディレクトリですが、powershellだと$HOMEでホームディレクトリになります。
+- [GOPATH in the VS Code Go extension](https://github.com/Microsoft/vscode-go/wiki/GOPATH-in-the-VS-Code-Go-extension)
 
-またgo拡張機能の[GOPATH in the VS Code Go extension](https://github.com/Microsoft/vscode-go/wiki/GOPATH-in-the-VS-Code-Go-extension)をみると、settings.jsonにgo.gopathが設定してあれば既存の値より優先されると書いてあります。
-今回、既存の値(`%USERPROFILE%\go`)で特に問題はないので確認だけして終了。
-go v1.8以前だったら、環境変数GOPATHを設定しないとまずそう？　ですがgo v1.8以上だと設定しなくてもデフォルトの値が利用されるので別段登録する必要性はなさそう？　とりあえず問題が出てきたら登録する方向で行きます。
+settings.jsonにgo.gopathが設定してあれば既存の値より優先されるそうです。
 
-またvscodeで明示的にGOPATHを指定したい場合はファイル->基本設定->設定で"go.gopath"の値を設定すればOK。
+setting.jsonのgo.gopathを設定する場合は、vscodeのファイル=>基本設定=>設定で"go.gopath"の値を設定すればOK。
 
-ちなみにvscodeでコマンドパレットで`go:current gopath`コマンドを実行すると、設定されているgopathが確認できたりします。
+ちなみにvscodeのコマンドパレットで`go:current gopath`コマンドを実行すると、設定されているgopathが確認できたりします。
 
 ![](image/goCurrentGoPath.png)
 
+golang バージョン1.8未満のだったら、環境変数GOPATHを設定しないとまずそう？　ですがgolang バージョン1.8以上だと設定がなくてもデフォルトの値が利用されるのであまりきにしなくてもよさそう。
+（更に言えばインストーラからインストールすると今現在は環境変数を追加してくれるっぽい）
+
 #### 🔰"files.autoSave"の設定をafterDelayに
 
-[how-to-use-this-extension](https://github.com/Microsoft/vscode-go#how-to-use-this-extension)のNote2に拡張機能つかうならvscodeの自動保存の設定をafterDelayにするのおすすめ！　って書いてある。
-個人的には自動保存って嫌いなんですが、公式がおすすめするのなら一度くらいは試してみようととりあえず"files.autosave":"afterDelay"に変更する。
+昔は[how-to-use-this-extension](https://github.com/Microsoft/vscode-go#how-to-use-this-extension)のNote2に下記のような記載があり。
 
-![](image/settingAutoSave.png)
+```
+Note 2: Users may want to consider turning Auto Save on in Visual Studio Code ("files.autoSave": "afterDelay") when using this extension. Many of the Go tools work only on saved files, and error reporting will be more interactive with Auto Save turned on. If you do turn Auto Save on, then the format-on-save feature will be turned off.
+```
+
+"files.autosave":"afterDelay"してみたのですが、今現在は下記のような記述になっており、この設定を行うかどうかは少し悩む。
+
+```
+Note 2: The Format on save feature has a timeout of 750ms after which the formatting is aborted. You can change this timeout using the setting editor.formatOnSaveTimeout. This feature gets disabled when you have enabled the Auto Save feature in Visual Studio Code.
+```
 
 #### 🔰"go.gocodeAutoBuild"の設定をtrueに
 
@@ -152,17 +194,20 @@ vscodeのgo拡張機能ではいろいろなパッケージを利用している
 
 `go: install/update tools`でこれらのパッケージを一気にインストールしてくれるらしいのでインストールしてみる。
 
-メニューバーの表示->コマンドパレット。もしくはctrl+shift+Pでコマンドパレットを表示して該当のコマンドを実行する。
+表示からコマンドパレットを選択。
+もしくはctrl+shift+Pでコマンドパレットを表示して該当のコマンドを実行する。
 
 ![](image/goInstallUpdateTools.png)
+
+とりあえず全部選択。
+
+![](image/goInstallUpdateToolsList.png)
 
 実行するとvscodeの出力コンソールにインストールしてる経過が出力されます。少し時間がかかりますが無事にインストールSuccess。
 
 ![](image/goInstallUpdateToolsSuccess.png)
 
-一応、GOPATHの配下にあるbinディレクトリをみてみるといろいろとパッケージがインストールされているのがわかります。
-
-![](image/lsGopathBin.png)
+一応、GOPATHの配下にあるbinディレクトリをみてみるといろいろとパッケージがインストールされているのが確認できます。
 
 ## 🔰A Tour of Goをやってみる
 
@@ -172,7 +217,7 @@ vscodeのgo拡張機能ではいろいろなパッケージを利用している
 
 ![](image/goTour.png)
 
-ありがたいことに日本語に翻訳してくれてプロジェクトもあるようですね。
+日本語に翻訳するプロジェクトもあるようですね。
 
 [github - atotto/go-tour-jp](https://github.com/atotto/go-tour-jp)
 
@@ -180,23 +225,21 @@ vscodeのgo拡張機能ではいろいろなパッケージを利用している
 
 ### 🔰A Tour of Goをローカルで動かしてみる
 
-ちなみにGo Tourの中に書いてありますが、gotourはローカルで動かすこともできます。
+Go Tourの中に書いてありますが、gotourはローカルで動かすこともできます。
 
-goをインストールしたあとに、`go tool tour`コマンドを実行するとブラウザが起動します。`go tool`というコマンドにA Tour of GOが含まれているようですね。
+`go get golang.org/x/tour`でgotourのパッケージをダウンロードするとGOPAH配下のbinにtour.exeができるのでこれを実行！
 
-もしくは、`go get golang.org/x/tour/gotour`でgotourのパッケージをダウンロードするとGOPAH配下のbinにgotour.exeができているのでこれを実行！
-
-![](image/exeGoTour.png)
+![](image/locallyGoTour.png)
 
 ## 🔰とりえあずhelloworldをやる
 
 [How to Write Go Code](https://golang.org/doc/code.html)にhelloworldがあるのでやってみる。
 
-なんかhelloworld以前にgolangの心得っぽいのが色々と書いてるのでこれかなり重要なやつだ！
+このページ、helloworld以前にgolangの心得っぽいのが色々と書いてるのでこれかなり重要なやつだ！
 
-golangだとすべてのコードを一つのワークスペースで管理するのを推奨してるっぽい。
+golangではすべてのコードを1つのワークスペースで管理するのを推奨してるっぽい。
 
-そんなワークスペースは下記のような構成になっているそうです。
+そんなワークスペースは下記のような構成。
 
 dir  | description
 :--- | :----------------------------
@@ -204,19 +247,15 @@ src  | contains Go source files,
 pkg  | contains package objects, and
 bin  | contains executable commands.
 
-ここらへんせっかくだからgolangの風を感じながら、推奨される方法でワークスペースを管理して行きたい所。
-
-あと**GOPATH\bin**を環境変数PATHに追加しておくと便利っぽいですね。
+せっかくだからgolangの風を感じながら、推奨される方法でワークスペースを管理してみます。
 
 ### 🔰サンプルプログラムを作成する
 
-[How to Write Go Code](https://golang.org/doc/code.html)では**github.com\user**で管理する例が記載されていますが、今回はローカルでしかやるつもりはないので下記のようにsrcディレクトリの直下に**local\hello**という具合にしてみた。
+[How to Write Go Code](https://golang.org/doc/code.html)では`github.com\user`で管理する例が記載されていますが、今回はローカルでしかやるつもりはないので下記のようにsrcディレクトリの直下に`local\hello`という具合。
 
-下記コマンドでGOPATH\src\local\helloというディレクトリを作成  
+やることは、Test your installationでやった内容とほぼ一緒。
 
-`mkdir "$(go env GOPATH)\src\local\hello"`
-
-![](image/mkdirLocalHelloworld.png)
+`%GOPATH%\src\local\hello`というディレクトリを作成  
 
 作成したディレクトリ配下に下記内容で**hello.go**というファイルを作成する。
 
@@ -236,8 +275,6 @@ func main() {
 
 [Effective Go - Formatting](https://golang.org/doc/effective_go.html#formatting)に色々と書いてあります。
 
-![](image/writeHelloWorld.png)
-
 ### 🔰サンプルプログラムをvscodeでデバック実行してみる
 
 プログラムの作成が終わったのでvscodeでデバック実行してみます。
@@ -247,20 +284,22 @@ vscodeのデバックパネルを開くと**構成がありません**となっ�
 ▶debug画面  
 ![](image/debugHelloWorldStep001.png)
 
-vscodeではlaunch.jsonというファイルでデバッグの設定を色々と定義できるのですが、自動でgolang用の物を生成してくれました。便利。
-
-ざっくり説明すると、この設定(name:Launch)は現在アクティブなプログラム(${fileDirName})のデバック実行をしてくれます。
-
-[vscode - Debugging](https://code.visualstudio.com/docs/editor/debugging)に色々と書いてあります。
+vscodeではlaunch.jsonというファイルでデバッグの設定を定義できるのですが、golang用のlaunch.jsonを自動で生成してくれました。便利。
 
 ▶launch.jsonが生成される。  
 ![](image/debugHelloWorldStep002.png)
+
+ざっくり説明すると設定（name:Launch）は現在アクティブなプログラム（${fileDirname}）のデバック実行をしてくれます。
+
+lunch.jsonについては下記に色々と記載があります。
+
+- [vscode - Debugging](https://code.visualstudio.com/docs/editor/debugging)
 
 先程生成されたlaunch.jsonはアクティブなプログラムをデバックするものなので、hello.goプログラムのタブを選択してからLaunchになっている事を確認してデバック実行ボタンを選択。
 
 ![](image/debugHelloWorldStep003.png)
 
-デバックコンソール(ctrl+shit+Y)に結果が表示されます。コンソールに"Hello, world"と表示されました。
+デバックコンソール（ctrl+shit+Y）に結果、"Hello, world"が表示されました。
 
 ![](image/debugHelloWorldStep004.png)
 
@@ -278,15 +317,19 @@ vscodeではlaunch.jsonというファイルでデバッグの設定を色々と
 
 コマンドを実行したら特にエラーもなく終了し、**gopath/bin**配下にhello.exeがビルドされています。これを実行すると**Hello , world.**と表示されます。
 
-今回、gopath/binは`$home/go/bin`になっているので下記のようにinvoke-expressionで実行してみる。($HOMEはpowershellでホームディレクトリを指す変数)
+今回、gopath/binは`$home/go/bin`になっているので下記のようにinvoke-expressionで実行してみる。（$HOMEはpowershellでホームディレクトリを指す変数）
 
 ![](image/goInstallHelloWorld.png)
 
 ### 🔰サンプルプログラムをgo runでプログラム実行してみる
 
-[Compile and run Go program](https://golang.org/cmd/go/#hdr-Compile_and_run_Go_program)をみると。
+`go run`でパッケージをビルドして実行します。
 
-`go run {gofilesPath}`のコマンドで実行できるようなので一応、先程作成したhello.goを実行してみる。
+[Compile and run Go program](https://golang.org/cmd/go/#hdr-Compile_and_run_Go_program)
+
+`go run [build flags] [-exec xprog] package [arguments...]`
+
+`go run {packages}`のコマンドで、先程作成したhello.goを実行してみる。
 
 ![](image/goRunHelloWorld.png)
 
@@ -294,27 +337,23 @@ vscodeではlaunch.jsonというファイルでデバッグの設定を色々と
 
 ### 🔰サンプルプログラムをgo buildでビルドしてみる
 
+`go build`でパッケージをビルドします。
+
 [Compile packages and dependencies](https://golang.org/cmd/go/#hdr-Compile_packages_and_dependencies)
 
-`go build {packages}`のコマンドでビルドできるようなので、先程作成したhelloworldをビルドして実行してみる。
+`go build [-o output] [-i] [build flags] [packages]`
+
+`go build {packages}`のコマンドでビルドできる。なお`-o`をつけない場合はワークディレクトリにビルドしたバイナリが出力されます。
 
 `go build {packages}`でビルドして、生成されたhello.exeを実行。
 
 ![](image/goBuildHelloWorld.png)
 
-※go buildするときに**go build - Access is denied**なエラーが出ることがありました。管理者実行したりなんだりしていたら自然とエラーがでなくなったので原因不明……なにか裏で動いていただろうか……
-
-![](image/accessIsDenied.png)
-
 ## 🔰ライブラリを作成して利用してみる
 
 [Your first library](https://golang.org/doc/code.html#Library)にあるstringを反転するライブラリを作成して利用する例を試してみる。
 
-helloworldのときと同様にlocalな場所にディレクトリを作成
-
-下記コマンドでGOPATH\src\local\stringutilというディレクトリを作成  
-
-`mkdir "$(go env GOPATH)\src\local\stringutil"`
+%GOPATH%\src\local\stringutilにディレクトリを作成
 
 作成したディレクトリに下記内容でreverse.goという名前のファイルを作成する。
 
@@ -333,8 +372,6 @@ func Reverse(s string) string {
 ```
 
 `go build local\stringutil`でビルドする。
-
-先程はフルパスを指定してbuildを試してみましたが、こういう形式でもOKっぽい。
 
 先程作成した**local\hello\hello.go**のファイルを下記のように書き換える。
 
@@ -373,13 +410,13 @@ nameは実行可能コマンドの場合は常に**main**。
 
 詳細については[Package names](https://golang.org/doc/effective_go.html#names)を参照。
 
-## 🔰サンプルプログラムでテストパッケージ(testing)を利用してみる
+## 🔰サンプルプログラムでテストパッケージ（testing）を利用してみる
 
 golangでテストフレームパッケージを利用する場合は、
 
 - ファイル末尾に_test.go
 - functionの名前は銭湯にTestを付与
-- functionの引数は(t *testing.T)
+- functionの引数は（t *testing.T）
 
 である必要があります。
 
@@ -387,7 +424,7 @@ golangでテストフレームパッケージを利用する場合は、
 
 下記内容で**local\stringutil\reverse_test.go**というファイルを作成する。
 
-テストパッケージ(testing)の詳細については下記参照
+テストパッケージ（testing）の詳細については下記参照
 
 - [Package testing](https://golang.org/pkg/testing/)
 - [Test packages](https://golang.org/cmd/go/#hdr-Test_packages)
@@ -468,7 +505,7 @@ $env:GOOS="linux";$env:GOARCH="amd64"; go install local\hello
 
 ![](image/executeUbuntuHello.png)
 
-Hello, Go!と表示されました！(改行コード入れてなかったからか、改行されてないですけど)
+Hello, Go!と表示されました！（改行コード入れてなかったからか、改行されてないですけど）
 
 ## 🔰総評
 
